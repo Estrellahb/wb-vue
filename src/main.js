@@ -4,6 +4,12 @@ import router from './router';
 import store from './store';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
+// 引入element-plus里的图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+//video-player
+import VueVideoPlayer from '@videojs-player/vue'
+import 'video.js/dist/video-js.css'
+import 'viewerjs/dist/viewer.css';
 
 // 创建应用实例
 const app = createApp(App);
@@ -19,6 +25,14 @@ app.config.productionTip = false;
 
 // 挂载 ElementPlus
 app.use(ElementPlus);
+// 引入element-plus里的图标
+ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+
+   app.component(key, component)
+
+ }
+
+app.use(VueVideoPlayer)
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
@@ -37,4 +51,4 @@ router.beforeEach((to, from, next) => {
 });
 
 // 使用 store 和 router
-app.use(store).use(router).mount('#app');
+app.use(store).use(router).mount('#app').use(Viewer);

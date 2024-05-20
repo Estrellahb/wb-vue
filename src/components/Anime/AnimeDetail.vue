@@ -1,0 +1,129 @@
+<template>
+  <div class="anime-content">
+    <div class="block">
+      <div class="anime-image">
+        <el-image :src="url" lazy />
+      </div>
+    </div>
+    <div class="anime-details">
+      <div class="anime-header">
+        <div class="anime-name">
+          <div class="nameCN">
+            {{ animeNameCN }}
+          </div>
+          <div class="nameJP">
+            {{ animeNameJP }}
+          </div>
+        </div>
+        <div class="state">
+          {{ animeState }}
+        </div>
+      </div>
+      <el-rate
+        :modelValue="modelValue"
+        disabled
+        show-score
+        text-color="#ff9900"
+        score-template="{value} 神！伟大无需多言"
+        @update:modelValue="handleUpdate"
+      />
+      <div class="info">
+        {{ animeInfo }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'AnimeDetail',
+  props: {
+    url: {
+      type: String,
+      required: true
+    },
+    animeNameCN: {
+      type: String,
+      required: true
+    },
+    animeNameJP: {
+      type: String,
+      required: true
+    },
+    modelValue: {
+      type: Number,
+      required: true
+    },
+    animeInfo: {
+      type: String,
+      required: true
+    },
+    animeState: {
+      type: String,
+      required:true
+    }
+  },
+  methods: {
+    handleUpdate(value) {
+      this.$emit('update:modelValue', value);
+    }
+  }
+}
+</script>
+
+<style scoped>
+.anime-content {
+  display: flex;
+  margin-top: 50px;
+  margin-left: 10%;
+}
+.block {
+  display: flex;
+  align-items: center;
+}
+.anime-image {
+  width: 180px;
+  height: 220px;
+}
+.anime-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  align-items: flex-start;
+}
+.anime-header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.anime-name {
+  background-color: rgb(57, 57, 57);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 5px;
+}
+.state {
+  background-color: rgb(23, 175, 28);
+  color: white;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap; 
+  border-radius:5px;
+}
+.nameCN {
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.bgm-star {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.info {
+  margin-top: 10px;
+}
+</style>

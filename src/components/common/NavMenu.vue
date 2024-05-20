@@ -22,7 +22,7 @@
     setup() {
       const navList = [
         { name: '/index', navItem: '首页' },
-        { name: '/jotter', navItem: '笔记本' },
+        { name: '/anime', navItem: '番剧信息' },
         { name: '/library', navItem: '图书馆' },
         { name: '/admin', navItem: '个人中心' },
       ];
