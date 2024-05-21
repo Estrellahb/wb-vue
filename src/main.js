@@ -9,7 +9,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 //video-player
 import VueVideoPlayer from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
-import 'viewerjs/dist/viewer.css';
+
 
 // 创建应用实例
 const app = createApp(App);
@@ -51,4 +51,4 @@ router.beforeEach((to, from, next) => {
 });
 
 // 使用 store 和 router
-app.use(store).use(router).mount('#app').use(Viewer);
+app.use(store).use(router).mount('#app');
