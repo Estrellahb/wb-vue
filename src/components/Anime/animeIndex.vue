@@ -33,7 +33,7 @@
         <anime-detail
           v-for="anime in animeList"
           :key="anime.id"
-          
+          :animeId="anime.id"
           :animeNameCN="anime.name_cn"
           :animeNameJP="anime.name_jp"
           :animeState="anime.state"
@@ -77,7 +77,7 @@ export default {
         console.error('Error fetching anime list:', error);
       }
     };
-
+    
     onMounted(() => {
       fetchAnimeList();
     });
@@ -86,7 +86,7 @@ export default {
       searchQuery,
       avatarSrc,
       searchAnime,
-      animeList
+      animeList,
       
     }
   }
