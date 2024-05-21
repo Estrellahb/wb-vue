@@ -2,7 +2,7 @@
   <div class="anime-content">
     <div class="block">
       <div class="anime-image">
-        <el-image :src="url" lazy />
+        <el-image :src="imageUrl" lazy />
       </div>
     </div>
     <div class="anime-details">
@@ -24,7 +24,7 @@
         disabled
         show-score
         text-color="#ff9900"
-        score-template="{value} 神！伟大无需多言"
+        :score-template="scoreTemplate"
         @update:modelValue="handleUpdate"
       />
       <div class="info">
@@ -38,9 +38,9 @@
 export default {
   name: 'AnimeDetail',
   props: {
-    url: {
+    imageUrl: {
       type: String,
-      required: true
+      default: ''
     },
     animeNameCN: {
       type: String,
@@ -66,6 +66,23 @@ export default {
   methods: {
     handleUpdate(value) {
       this.$emit('update:modelValue', value);
+    }
+  },
+  computed: {
+    scoreTemplate() {
+      if (this.modelValue > 4) {
+        return `{value} 神！伟大无需多言`;
+      } else if (this.modelValue > 3) {
+        return `{value} 很优秀`;
+      } else if (this.modelValue > 2){ 
+        return `{value} 还可以`;
+      }
+        else if (this.modelValue > 1){ 
+          return `{value} 勉勉强强`;
+        }
+        else { 
+        return `{value} 这是屎`;
+      }
     }
   }
 }

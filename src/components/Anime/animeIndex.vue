@@ -29,14 +29,16 @@
         <el-button @click="searchAnime" type="primary">搜索</el-button>
       </div>
       <!-- 动画详情组件 -->
-      <div>
+      <div class="anime-list">
         <anime-detail
-          :url="animeImageUrl"
-          :animeNameCN="animeNameCN"
-          :animeNameJP="animeNameJP"
-          :animeState="animeState"
-          :modelValue="animeRating"
-          :animeInfo="animeInfo"
+          v-for="anime in animeList"
+          :key="anime.id"
+          
+          :animeNameCN="anime.name_cn"
+          :animeNameJP="anime.name_jp"
+          :animeState="anime.state"
+          :modelValue="anime.value"
+          :animeInfo="anime.info"
         />
       </div>
     </el-main>
@@ -44,9 +46,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref , onMounted} from 'vue';
 import { ElContainer, ElAside, ElMain, ElAvatar, ElDivider, ElCard, ElTag, ElRate, ElInput, ElButton } from 'element-plus';
 import AnimeDetail from './AnimeDetail.vue';
+import axios from 'axios';
 export default {
   name: 'AnimeIndex',
   components: {
@@ -64,24 +67,27 @@ export default {
       // 实现搜索逻辑
     }
     //番剧详细信息
-    const animeImageUrl = require('@/assets/19a4de9cdaa68a2136af784f87dfabab512995925.jpg');
-    const animeNameCN = ref('GIRLS BAND CRY');
-    const animeNameJP = ref('ガールズバンドクライ');
-    const animeState = ref('连载中');
-    const animeRating = ref(4.9);
-    const animeInfo = ref('番剧简介：高中二年级时退学，独自一人以上大学为目标前往东京的主角。 被朋友背叛不知道该怎么办的少女。 被父母抛弃，在大城市中独自打工维持生计的女孩。 这个世界总是背叛我们。 什么事情都不会按照我们的意愿发展。 但是，因为我们有热爱着的事物。 因为我们相信有属于自己的容身之处。 所以、高歌着。');
+        const animeList = ref([]);
 
- 
+    const fetchAnimeList = async () => {
+      try {
+        const response = await axios.get('/anime/all');  // 修改为你的后端API端点
+        animeList.value = response.data;
+      } catch (error) {
+        console.error('Error fetching anime list:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchAnimeList();
+    });
+    
     return {
       searchQuery,
       avatarSrc,
       searchAnime,
-      animeImageUrl,
-      animeNameCN,
-      animeNameJP,
-      animeRating,
-      animeInfo,
-      animeState
+      animeList
+      
     }
   }
 }
