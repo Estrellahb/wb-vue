@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,32 +20,29 @@ public class AnimeController {
     @Autowired
     private AnimeService animeService;
 
-    @GetMapping
-    public List<Anime> getAllAnime() {
-        return animeService.getAllAnime();
+    @GetMapping("/all")
+    public ResponseEntity<List<Anime>> getAllAnime() {
+        List<Anime> animeList = animeService.getAllAnime();
+        return ResponseEntity.ok(animeList);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<Anime> getAnimeById(@PathVariable Long id) {
         Optional<Anime> anime = animeService.getAnimeById(id);
-        return anime.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<Anime> createAnime(@RequestBody Anime anime) {
-        Anime savedAnime = animeService.saveOrUpdateAnime(anime);
-        return new ResponseEntity<>(savedAnime, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Anime> updateAnime(@PathVariable Long id, @RequestBody Anime anime) {
-        if (!animeService.getAnimeById(id).isPresent()) {
+        if (anime.isPresent()) {
+            return ResponseEntity.ok(anime.get());
+        } else {
             return ResponseEntity.notFound().build();
         }
-        anime.setId(id);
-        Anime updatedAnime = animeService.saveOrUpdateAnime(anime);
-        return ResponseEntity.ok(updatedAnime);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Anime> addAnime(@RequestBody Anime anime) {
+        Anime addedAnime = animeService.addAnime(anime);
+        return ResponseEntity.ok(addedAnime);
+    }
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAnime(@PathVariable Long id) {

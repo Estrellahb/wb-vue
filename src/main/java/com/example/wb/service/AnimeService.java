@@ -20,11 +20,11 @@ public class AnimeService {
         return animeDao.findById(id);
     }
 
-    public Anime saveOrUpdateAnime(Anime anime) {
-        return animeDao.save(anime);
-    }
 
     public void deleteAnime(Long id) {
         animeDao.deleteById(id);
+    }
+
+    public Anime addAnime(Anime anime) {return animeDao.save(anime);
     }
 }
