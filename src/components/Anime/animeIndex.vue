@@ -24,10 +24,12 @@
       </div>
     </el-aside>
     <el-main class="content">
-      <div class="search">
-        <el-input v-model="searchQuery" placeholder="请输入动画名称"></el-input>
-        <el-button @click="searchAnime" type="primary">搜索</el-button>
-      </div>
+      <!-- 模糊搜索组件 -->
+      <anime-search
+        @search="handleSearch"
+      />
+
+      
       <!-- 动画详情组件 -->
       <div class="anime-list">
         <anime-detail
@@ -50,22 +52,17 @@ import { ref , onMounted} from 'vue';
 import { ElContainer, ElAside, ElMain, ElAvatar, ElDivider, ElCard, ElTag, ElRate, ElInput, ElButton } from 'element-plus';
 import AnimeDetail from './AnimeDetail.vue';
 import axios from 'axios';
+import AnimeSearch from './animeSearch.vue';
 export default {
   name: 'AnimeIndex',
   components: {
     ElContainer, ElAside, ElMain, ElAvatar, ElDivider, ElCard, ElTag, ElRate, ElInput, ElButton
-    ,AnimeDetail
+    ,AnimeDetail,AnimeSearch
   },
   setup() {
-    const searchQuery = ref('');
-    
     // 通过 ES6 模块导入语法导入图片资源
     const avatarSrc = require('@/assets/虹夏.png');
     
-    const searchAnime = () => {
-      console.log('搜索内容:', searchQuery.value);
-      // 实现搜索逻辑
-    }
     //番剧详细信息
         const animeList = ref([]);
 
@@ -77,17 +74,25 @@ export default {
         console.error('Error fetching anime list:', error);
       }
     };
+
+    const handleSearch = async (query) => {
+      try {
+        // 发送搜索请求到后端，并传递搜索查询参数
+        const response = await axios.get(`anime/search?nameCn=${query}`);
+        animeList.value = response.data;
+      } catch (error) {
+        console.error('搜索失败:', error);
+      }
+    };
     
     onMounted(() => {
       fetchAnimeList();
     });
     
     return {
-      searchQuery,
       avatarSrc,
-      searchAnime,
       animeList,
-      
+      handleSearch
     }
   }
 }
@@ -130,17 +135,4 @@ export default {
 .content {
   padding: 10px;
 }
-
-.search {
-  display: flex;
-  margin-bottom: 20px;
-}
-
-.search .el-input {
-  margin-right: 10px;
-  margin-left: 10%;
-  width: 80%;
-}
-
-
 </style>
