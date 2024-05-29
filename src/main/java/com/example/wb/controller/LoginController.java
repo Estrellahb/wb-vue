@@ -32,8 +32,18 @@ public class LoginController {
             return new Result(400);
         } else {
             session.setAttribute("user", user);
-            return new Result(200);
+            return new Result(200 );
         }
+    }
+    @PostMapping(value ="/api/register")
+    @CrossOrigin
+    @ResponseBody
+    public Result register(@RequestBody User user) {
+        if (userService.getByName(user.getUsername()) != null) {
+            return new Result(400);
+        }
+        userService.register(user);
+        return new Result(200);
     }
 
 }

@@ -15,6 +15,9 @@ public class AnimeService {
     public List<Anime> getAllAnime() {
         return animeDao.findAll();
     }
+    public List<Anime> findAnimeByNameCn(String nameCn) {
+        return animeDao.findByNameCnContain("%" + nameCn + "%");
+    }
 
     public Optional<Anime> getAnimeById(Long id) {
         return animeDao.findById(id);

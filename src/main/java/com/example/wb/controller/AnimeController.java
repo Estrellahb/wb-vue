@@ -1,6 +1,7 @@
 package com.example.wb.controller;
 
 
+import com.example.wb.dao.AnimeDao;
 import com.example.wb.pojo.Anime;
 import com.example.wb.service.AnimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,10 @@ public class AnimeController {
         Anime addedAnime = animeService.addAnime(anime);
         return ResponseEntity.ok(addedAnime);
     }
-
+    @GetMapping("/search")
+    public List<Anime> search(@RequestParam String nameCn){
+        return animeService.findAnimeByNameCn(nameCn);
+    }
 
 
 

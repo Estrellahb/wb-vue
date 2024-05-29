@@ -21,7 +21,8 @@ public class UserService {
         return userDao.getByUsernameAndPassword(username, password);
     }
 
-    public void add(User user) {
-        userDao.save(user);
+    public User register(User user) {
+        return userDao.save(user);
     }
+
 }
