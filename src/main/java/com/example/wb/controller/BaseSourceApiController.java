@@ -27,9 +27,9 @@ public class BaseSourceApiController {
     @ResponseBody
     public String getVideoUrl() {
         // 指定视频文件的路径
-        String videoPath = "D:/workspace/wb/src/main/resources/static/KFC.mp4";
+//        String videoPath = "D:/workspace/wb/src/main/resources/static/KFC.mp4";
         // 返回视频文件的路径
-        return videoPath;
+//        return videoPath;
     }
 
     @GetMapping("/video")
