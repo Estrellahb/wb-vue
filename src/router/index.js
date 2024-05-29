@@ -5,7 +5,8 @@ import Home from '../components/Home.vue'
 import LibraryIndex from '../components/Library/LibraryIndex.vue'
 import { VideoPlayer } from 'vue-video-player';
 import animeIndex from '@/components/Anime/animeIndex.vue';
-
+import register from '@/components/register.vue';
+import website from '@/components/Website/website.vue';
 const router = createRouter({
   history: createWebHistory(), // 使用 History 创建路由器实例
   routes: [
@@ -37,13 +38,23 @@ const router = createRouter({
           name: animeIndex,
           component: animeIndex,
           
-        }
+        },
+        {
+          path: '/website',
+          name: 'website',
+          component: website,
+        },
       ]
     },
     {
       path: '/login',
       name: 'Login',
       component: Login,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: register,
     },
     {
       path: '/video',

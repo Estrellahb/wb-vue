@@ -49,10 +49,11 @@
 
 <script>
 import { ref , onMounted} from 'vue';
-import { ElContainer, ElAside, ElMain, ElAvatar, ElDivider, ElCard, ElTag, ElRate, ElInput, ElButton } from 'element-plus';
+import { ElContainer, ElAside, ElMain, ElAvatar, ElDivider, ElCard, ElTag, ElRate, ElInput, ElButton,ElMessage } from 'element-plus';
 import AnimeDetail from './AnimeDetail.vue';
 import axios from 'axios';
 import AnimeSearch from './animeSearch.vue';
+
 export default {
   name: 'AnimeIndex',
   components: {
@@ -81,6 +82,7 @@ export default {
         const response = await axios.get(`anime/search?nameCn=${query}`);
         animeList.value = response.data;
       } catch (error) {
+        ElMessage.error('没找到，请检查名字是否正确');
         console.error('搜索失败:', error);
       }
     };
