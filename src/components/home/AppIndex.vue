@@ -1,5 +1,7 @@
 <template>
-  <el-container>
+  <div class="background"></div>
+  <el-container class="container">
+    
     <el-header>
       <!-- 头部内容 -->
     </el-header>
@@ -30,11 +32,12 @@
         </el-row>
       </el-main>
     </el-container>
-    <el-footer>版权所有 © 2024</el-footer>
+    <div class="aplayer-wrap">
+      <div id="aplayer"></div>
+    </div>
+    <!-- <el-footer>版权所有 © 2024</el-footer> -->
   </el-container>
-  <div class="aplayer-wrap">
-    <div id="aplayer"></div>
-  </div>
+  
   
 </template>
 
@@ -91,6 +94,24 @@ export default {
 <style>
   .aplayer-wrap {
     max-width: 500px;
-    margin: 50px 20px;
+    margin: 1.3em 10px;
+    
+}
+  .container{
+    margin: 0 5%;
+    background-color: rgba(255, 255, 255, 0.9);
+    height: 100%;
+  }
+  .background{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("@/assets/梦鲸落_76900523.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  z-index: -3;
 }
 </style>

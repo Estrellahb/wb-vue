@@ -13,7 +13,7 @@
                          @mouseenter="showComment = website.id"
                          @mouseleave="showComment = null">
                   <div class="website-icon">
-                    <font-awesome-icon :icon="website.icon" size="lg" />
+                    <font-awesome-icon :icon="getIcon(website.icon)" size="lg" />
                   </div>
                   <div class="website-name">{{ website.name }}</div>
                   <div class="website-url">{{ website.url }}</div>
@@ -31,10 +31,18 @@
 </template>
 
 <script>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faGoogle, faGithub, faFacebook} from '@fortawesome/free-brands-svg-icons';
-import { faCat } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+// import { faGoogle, faGithub, faFacebook} from '@fortawesome/free-brands-svg-icons';
+// import { faCat } from '@fortawesome/free-solid-svg-icons';
+// import axios from 'axios';
 
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faGoogle, faGithub, faFacebook} from '@fortawesome/free-brands-svg-icons';
+import { faCat as faSolidCat } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faGoogle, faGithub, faFacebook, faSolidCat);
 
 export default {
   components: {
@@ -43,51 +51,43 @@ export default {
   data() {
     return {
       showComment: null,
-      categorizedWebsites: {
-        '搜索引擎': [
-          { id: 1, name: 'Google', url: 'https://www.google.com', icon: faGoogle, comment: '搜索神器' },
-          { id: 2, name: 'Yandex', url: 'https://yandex.com/', icon: faCat, comment: '毛子的搜索引擎，搜图特好用' },
-        ],
-        '开源社区': [
-          { id: 3, name: 'GitHub', url: 'https://github.com', icon: faGithub, comment: '程序员的交友网站' },
-        ],
-        '社交网络': [
-          { id: 4, name: 'Facebook', url: 'https://www.facebook.com', icon: faFacebook, comment: '社交网站' },
-        ],
-        '压制与字幕组': [
-          { id: 5, name: 'VCB', url: 'https://vcb-s.com', icon: faCat, comment: '收藏级压制组' },
-          { id: 6, name: 'Anime字幕论坛', url: 'https://bbs.acgrip.com/', icon: faCat, comment: '动画字幕网站' },
-          { id: 7, name: '诸神字幕组', url: 'https://subs.kamigami.org', icon: faCat, comment: '字幕组' },
-          { id: 8, name: '幻樱字幕组', url: 'http://www.hysub.net/?ref=acgdh.cc', icon: faCat, comment: '番剧下载' },
-          { id: 9, name: 'SubHD', url: 'https://subhd.tv/', icon: faCat, comment: '字幕下载' },
-        ],
-        '番剧下载': [
-          { id: 10, name: '萌番组', url: 'https://bangumi.moe', icon: faCat, comment: '番剧下载' },
-          { id: 11, name: '末日動漫資源庫', url: 'https://share.acgnx.se/', icon: faCat, comment: '番剧下载' },
-          { id: 12, name: 'Nyaa', url: 'https://nyaa.si/', icon: faCat, comment: 'Nyaa是一个侧重于东亚多媒体资源的BitTorrent站点。要科技' },
-          { id: 13, name: '蜜柑计划', url: 'https://mikanani.me/', icon: faCat, comment: '番剧订阅下载' },
-          { id: 14, name: '动漫花园', url: 'https://share.dmhy.org/', icon: faCat, comment: '番剧下载' },
-          { id: 15, name: '天使动漫论坛', url: 'https://www.tsdm39.com/forum.php', icon: faCat, comment: '里面有很多bd自购大佬' },
-          { id: 16, name: 'ACGRIP', url: 'https://acgrip.art/', icon: faCat, comment: '番剧下载' },
-        ],
-        '在线番剧网站': [
-          { id: 17, name: 'AGE动漫', url: 'https://www.agedm.org/', icon: faCat, comment: '在线视频网站' },
-          { id: 18, name: '樱花动漫', url: 'http://www.iyinghua.io/', icon: faCat, comment: '在线视频网站' },
-          { id: 19, name: 'bangumi', url: 'https://bgm.tv/', icon: faCat, comment: '二次元社区' },
-          { id: 20, name: 'YuC AnimeList', url: 'https://yuc.wiki/', icon: faCat, comment: '番剧更新讯息' },
-        ],
-        '工具类': [
-          { id: 21, name: '番剧图片搜索引擎', url: 'https://trace.moe/', icon: faCat, comment: '图片定位视频地址' },
-          { id: 22, name: 'free download', url: 'https://www.freedownloadmanager.org/zh/', icon: faCat, comment: '下载工具，兼容浏览器下载' },
-          { id: 23, name: '图吧工具箱', url: 'https://www.tbtool.cn/', icon: faCat, comment: '计算机硬件检测实用工具' },
-          { id: 24, name: 'qbittonrrent', url: 'https://www.qbittorrent.org/download', icon: faCat, comment: '免费bt磁力下载工具 便携版本：https://www.52pojie.cn/thread-1851155-1-1.html' },
-          { id: 25, name: '7-zip', url: 'https://www.7-zip.org/download.html', icon: faCat, comment: '占用空间最小的解压与压缩软件' },
-        ],
-      }
+      categorizedWebsites: {},
+      icons: {
+        faGoogle: ['fab', 'google'],
+        faGithub: ['fab', 'github'],
+        faFacebook: ['fab', 'facebook'],
+        faCat: ['fas', 'cat'],
+      },
+    };
+  },
+  methods: {
+    async fetchWebsites() {
+      try {
+        const response = await axios.get('/website');
+        const websites = response.data;
 
-    }
+        // Categorize websites
+        const categorized = websites.reduce((acc, website) => {
+          if (!acc[website.category]) {
+            acc[website.category] = [];
+          }
+          acc[website.category].push(website);
+          return acc;
+        }, {});
+
+        this.categorizedWebsites = categorized;
+      } catch (error) {
+        console.error("Error fetching websites:", error);
+      }
+    },
+    getIcon(iconName) {
+      return this.icons[iconName] || this.icons.faCat; // 返回图标或默认图标
+    },
+  },
+    created() {
+      this.fetchWebsites();
+    },
   }
-}
 </script>
 
 <style scoped>

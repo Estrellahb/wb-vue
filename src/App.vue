@@ -18,3 +18,30 @@
 
 
 </style>
+<script>
+export default {
+  data() {
+    return {
+      originalTitle: '你好呀( ° ∀ ° )ﾉﾞ',//你的原始标题
+      hiddenTitle: '看不见我(*/ω＼*)'//你离开时的标题
+    };
+  },
+  mounted() {
+    document.title = this.originalTitle;
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+  },
+  beforeUnmount() {
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+  },
+  methods: {
+    handleVisibilityChange() {
+      if (document.hidden) {
+        document.title = this.hiddenTitle;
+      } else {
+        document.title = this.originalTitle;
+      }
+    }
+  }
+}
+
+</script>

@@ -1,5 +1,7 @@
 <template>
+  <div class="background"></div>
   <el-container class="container">
+    
     <el-aside class="sidebar" width="20%">
       <el-avatar :size="100" class="picture" :src="avatarSrc"></el-avatar>
       <div class="name">
@@ -102,10 +104,33 @@ export default {
 
 
 <style scoped>
+.content {
+  padding: 0;
+  overflow-y: hidden; /* 隐藏垂直滚动条 */
+  height: 100%; /* 让内容适应容器的高度 */
+  margin-right: 10px;
+}
+
+
+.background{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("@/assets/朱_54341472.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8;
+  z-index: -3;
+}
 .container {
-  margin-top: 50px;
+  padding-top: 50px;
   margin-left: 10%;
   margin-right: 10%;
+  background-color: rgba(255, 255, 255, 0.9); 
+  border: none; /* 移除边框 */
+  overflow: hidden;
 }
 
 .sidebar {
@@ -134,7 +159,5 @@ export default {
   margin-bottom: 10px; /* Add space between the tags */
 }
 
-.content {
-  padding: 10px;
-}
+
 </style>
