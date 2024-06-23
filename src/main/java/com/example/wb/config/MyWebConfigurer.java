@@ -15,6 +15,7 @@ public class MyWebConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry){
+        //拦截所有路径，放行/index
         registry.addInterceptor(getLoginIntercepter()).addPathPatterns("/**").excludePathPatterns("/index.html");
     }
     @Override
